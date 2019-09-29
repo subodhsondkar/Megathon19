@@ -42,23 +42,21 @@ def replaceKey(sposs, poss):
     else:
         return [sentence, word] 
 
-file = open(input())
-text = file.read()
+import json
+fl1 = open(input(), "w+")
+fl2 = open(input())
+text = fl2.read()
+fl2.close()
 paragraphs = text.split(".")
 while "" in paragraphs:
     paragraphs.remove("")
 for i in range(len(paragraphs)):
     paragraphs[i] = paragraphs[i].replace("\n", "")
-    print(paragraphs[i])
-y = []
 for paragraph in paragraphs:
     sposs, poss = blobbing(paragraph)
     x = replaceKey(sposs, poss)
-    y += [{"text": x[0], "fibs": x[1]}]
+    y = {"text": x[0], "fibs": x[1]}
+    fl1.write(json.dumps(y) + "\n")
 
-import json
-f = open(input(), "w+")
-
-f.write(json.dumps(y) + "\n")
-f.close()
+fl1.close()
 
