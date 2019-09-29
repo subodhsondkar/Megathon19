@@ -15,8 +15,8 @@ def blobbing(text):
     return sposs, poss
 
 def replaceIC(word, sentence):
-    insensitive_hippo = re.compile(re.escape("" + word), re.IGNORECASE)
-    return insensitive_hippo.sub('__________________', sentence)
+    temp_re = re.compile(re.escape("" + word), re.IGNORECASE)
+    return temp_re.sub('__________________', sentence)
 
 def removeWord(sentence, poss):
     words = None
@@ -30,11 +30,11 @@ def removeWord(sentence, poss):
     if len(words) > 0:
         word = random.choice(words) # randomisation ki jagah global kuchh algo maarneka
         replaced = replaceIC(word, sentence)
-        return (word, sentence, replaced)
+        return (words, sentence, replaced)
     else:
         #print("words are empty")
         return (None, sentence, None)
-    
+
 def replaceKey(sposs, poss):
     (word, sentence, replaced) = removeWord(sposs, poss)
     if replaced is None:
@@ -47,6 +47,9 @@ text = file.read()
 paragraphs = text.split(".")
 while "" in paragraphs:
     paragraphs.remove("")
+for i in range(len(paragraphs)):
+    paragraphs[i] = paragraphs[i].replace("\n", "")
+    print(paragraphs[i])
 y = []
 for paragraph in paragraphs:
     sposs, poss = blobbing(paragraph)
@@ -54,7 +57,7 @@ for paragraph in paragraphs:
     y += [{"text": x[0], "fibs": x[1]}]
 
 import json
-f = open("chemistry.json", "w+")
+f = open(input(), "w+")
 
 f.write(json.dumps(y) + "\n")
 f.close()
