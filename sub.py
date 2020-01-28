@@ -14,11 +14,11 @@ def blobbing(text):
             poss[tag].append(bt[0])
     return sposs, poss
 
-def replaceIC(word, sentence):
+def replace_IC(word, sentence):
     temp_re = re.compile(re.escape("" + word), re.IGNORECASE)
     return temp_re.sub('__________________', sentence)
 
-def removeWord(sentence, poss):
+def remove_word(sentence, poss):
     words = None
     if 'NNP' in poss:
         words = poss['NNP']
@@ -29,14 +29,14 @@ def removeWord(sentence, poss):
         return (None, sentence, None)
     if len(words) > 0:
         word = random.choice(words) # randomisation ki jagah global kuchh algo maarneka
-        replaced = replaceIC(word, sentence)
+        replaced = replace_IC(word, sentence)
         return (words, sentence, replaced)
     else:
         #print("words are empty")
         return (None, sentence, None)
 
-def replaceKey(sposs, poss):
-    (word, sentence, replaced) = removeWord(sposs, poss)
+def replace_key(sposs, poss):
+    (word, sentence, replaced) = remove_word(sposs, poss)
     if replaced is None:
         return [sposs, None]
     else:
@@ -54,7 +54,7 @@ for i in range(len(paragraphs)):
     paragraphs[i] = paragraphs[i].replace("\n", "")
 for paragraph in paragraphs:
     sposs, poss = blobbing(paragraph)
-    x = replaceKey(sposs, poss)
+    x = replace_key(sposs, poss)
     y = {"text": x[0], "fibs": x[1]}
     fl1.write(json.dumps(y) + "\n")
 
